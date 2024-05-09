@@ -1,0 +1,230 @@
+windows
+
+	intro basic access
+priv users
+malware
+logging (kinda)
+sec prods
+sys resource usage
+
+time /t
+date /t
+
+date /t && time /t
+
+DO NOT RUN DATE OR TIME BY ITSELF
+
+systeminfo - bunch of good stuff
+
+wmic cpu get loadpercentage
+
+wmic logicaldisk get name (displays local drives)
+
+dir c:\
+
+ipconfig /all
+
+hostname
+
+echo %userdomain%
+
+tasklist
+
+netstat /anob
+
+dir 
+cd
+
+type (cat)
+
+more
+strings
+
+findstr
+schtasks (malware hides here)
+
+ntfsinfo C:\ (takes forever)
+
+	net cmds
+	
+net share
+
+create, remove, and otherwise manage shared resources on the computer (share your files)
+
+net use
+
+show the shared drives you've mapped to as well as allow you to manage those mapped drives (use shared files)
+
+net session
+
+list or disconnect sessions between the computer and others on the network
+
+net pause
+
+puts on hold a Windows resource or service
+
+net continue
+
+restart a service that was put on hold by ‘net pause’
+
+net stop
+
+stops a Windows resource or service
+
+net start
+
+start a network service or list running network services
+
+net accounts
+
+set password and logon requirements for users
+
+net computer
+
+add or remove a computer from a domain
+
+net config
+
+show information about the configuration of the Server or Workstation service
+
+net file
+
+show a list of open files on a server
+
+net group
+
+used to add, delete, and manage global groups on servers
+
+net localgroup
+
+used to add, delete, and manage local groups on computers
+
+NET Commands
+
+net statistics
+
+show the network statistics log for the Server or Workstation service
+
+net time
+
+display the current time and date of another computer on the network
+
+net user
+
+used to add, delete, and otherwise manage the users on a computer
+
+net view
+
+list of computers and network devices on the network
+
+net name (removed after XP)
+
+used to add or delete a messaging alias at a computer
+
+net print (removed after Vista)
+
+display and manage network print jobs
+
+net send (removed after XP)
+
+send messages to other users, computers, or net name
+
+Registry Commands
+
+reg query
+
+Queries a specified registry key/subkey
+
+reg compare
+
+Compares specified registry keys/subkeys
+
+reg add
+
+Adds a new subkey to a specified registry location
+
+reg delete
+
+Deletes a specified registry subkey
+
+reg copy
+
+Copies a registry subkey to a specified location on a local or remote machine
+
+reg export
+
+Exports keys/subkeys from the registry to a file
+
+reg import
+
+Imports keys/subkeys from a file back into the registry
+
+Additional CMD commands
+
+doskey
+
+Create Linux style aliases (super helpful)
+
+wevtutil
+
+Provides information about Windows events, can query, export, and clear logs, learn this
+
+schtasks
+
+Adds/deletes/queries scheduled tasks
+
+arp
+
+Lists or modifies arp cache entries
+
+tracert
+
+Sends ICMP echo request to specified location and maps out path taken (near/side router
+interface replies to sender)
+
+dir /b/s *.txt
+
+Search all text files in directory tree
+
+Send anything to a file and search the file!
+
+Dir /b/s *.exe >> c:\filelist.txt
+
+Type filelist.txt | find /i “whatever you're searching for”
+
+Additional CMD commands
+
+route
+
+Used to view and/or manipulate IP routing table
+
+driverquery
+
+Lists all device (hardware) drivers installed
+
+tree
+
+Displays a specified drive or directory and all its subdirectories and files in a tree like format
+
+netsh advfirewall show allprofiles
+
+Shows the status of all Windows firewall profiles (Domain, Private, Public)
+
+auditpol /get /category:*
+
+Queries all audit categories
+
+
+IF YOU USE POWERSHELL, UNDERSTAND IT LOGS WAYYY MORE AND TO ASK MC, PLUS YOU HAVE TO REPORT ALL THE LOGS POWERSHELL MAKES UPON EXIT
+
+if winmgt is set to auto, ask mc if you can run wmic
+
+sc winmgt
+
+wmic /?
+
+
+wmic process is UGLY
+
+wmic process get parentprocessid, executablepath (much better)
+

@@ -1,0 +1,82 @@
+SCANNING
+
+ping
+
+traceroute - has more than icmp 
+
+nmap - learn it
+
+nc
+
+wget / curl
+
+snmp-check
+
+rpcinfo
+
+
+
+nmap 
+
+-sS SYN stealth scan - an incomplete tcp handshake, default for priviledged users
+-sT TCP connect - full connect, default for normal users
+-sU UDP scan
+
+dont use -O 
+
+tcpwrapped means its closed
+
+
+nc 
+
+-z port scanning mode
+-v verbose
+-n do not resovle ip, use this
+-w 1 set time out value to 1
+
+file transfer types 
+nc -l 3282 > transfer file
+
+wget / curl
+
+wget --header="Accept: text/html" --user-agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+rv:21.0) Gecko/20100101 Firefox/21.0" --referrer connect.wso2.com http://google.com
+
+curl -A "Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.9.2.3) Gecko/20100401
+Firefox/3.6.3" http://yahoo.com
+
+icmp can not traverse tunnels
+//PORT SCAN FOR SSH
+nmap -n -Pn -v -sT -T3 -p
+
+
+//BANNER GRAB
+nmap -sV -n -Pn -v -sT -T3 -p 22 192.168.0.10,23,27
+nc ip port
+-sS doesnt complete, so ports will say filtered if it doesnt like the -sS, use -sT instead, no -sS through a tunnel
+
+
+
+
+
+
+
+
+for i in {1..254} ;do (ping -c 1 192.168.1.$i | grep "bytes from" &) ;done
+
+
+dint scan whole net, use ip n or arp -a to find potential boxes 
+
+ip n | cut -d' ' -f1
+
+ssh -S /tmp/Tx blah -O forward -D 9050
+proxychains -q nmap -sT -Pn -n -v -T3 -p 135,139,445,3389,5986,21,53,67,80,110,23 
+
+cat <nmap output> | grep open -B 4 | grep report | cut -d' ' -f5
+
+scan a cat, 
+
+
+
+
+

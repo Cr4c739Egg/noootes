@@ -1,0 +1,18 @@
+log notes
+
+cron should be empty
+
+syslog deamon creates the logs
+
+rsyslog.conf shows the rules
+
+touching ssh at all makes a log
+
+does the proc log exist and the timestamp is current? if yes, then its active then u need to make abnormal logging report
+
+lastcomm - proclog
+
+sec products
+some commands can be afected, to get around, call the binary itself. /bin/ls
+cloud based cant read logs
+timestamps for reports are the file timestamps not the actual logs

@@ -1,0 +1,42 @@
+10.50.38.229 
+louise
+student2:password2
+HH1
+ssh -MS /tmp/T1 -p 22 student2@10.50.38.229 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+
+ssh -S /tmp/T1 dummy -O forward -L 127.0.0.1:3002:192.168.0.10:22
+
+ssh -MS /tmp/T2 -p 3002 student2@127.0.0.1 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+
+ssh -S /tmp/T2 dummy -O forward -L 127.0.0.1:3003:192.168.0.27:22
+
+ssh -MS /tmp/T3 -p 3003 student2@127.0.0.1 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+
+
+HH2
+ssh -MS /tmp/T1 -p 22 student2@10.50.38.229 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+
+ssh -S /tmp/T1 dummy -O forward -L 127.0.0.1:2002:192.168.0.13:22
+
+ssh -MS /tmp/T2 -p 2002 student2@127.0.0.1 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+
+ssh -S /tmp/T2 dummy -O forward -R 192.168.0.9:12302:127.0.0.1:12302                         
+
+nc -nvlp 12302
+listening on [any] 12302 ...
+connect to [127.0.0.1] from (UNKNOWN) [127.0.0.1] 49306
+Congrats! You are an 31337 H4x0r! Credentials student#::password#
+
+ssh -S /tmp/T1 dummy -O forward -L 127.0.0.1:2002:192.168.0.27:22
+
+ssh -MS /tmp/T4 -p 2002 student2@127.0.0.1 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+
+ssh -S /tmp/T4 dummy -O forward -L 127.0.0.1:2004:192.168.0.23:22
+
+ssh -MS /tmp/T5 -p 2004 student2@127.0.0.1 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+
+
+
+HH6
+
+

@@ -1,0 +1,96 @@
+SSH/Inital access Lecture
+
+satilites and unencrypted comms are bad
+
+protect the infrastructure & tools/ttps
+
+OP STATION - we own, fully trusted DONT VET
+
+never run ssh or scp on a target box
+
+Listening Post - extension of ops but open to internet, so we must vet to make sure it isnt compromised. Open ssh is going to be brute forced so dont worry. Connection and scanning commands may be ran from here if required
+
+Red Space - vet all these, even if kicked off the box, do a mini vet when logged back on 
+
+redirector/external router - touches internet - may be first step into network, may be natted and or have 2 nics for each side
+
+internal hosts
+
+regular ssh cmd / ssh -p 2202 root@10.50.25.1
+
+Master sockets
+
+ssh -M -S /tmp/T1 -p 2022 root@10.20.30.40
+
+-M makes master connection all of the connections will be built off of
+
+-S saves it
+
+/tmp/T1 is the name of connection and saves the connection in that file
+
+then, when opening another shell on that connection, just use the -S
+ssh -S /tmp/T1 -p 2022 root@10.20.30.40
+
+ssh HAS TO HAVE A DA
+
+only have the amount of terms open that is necessary. Dont authenticate with a box more than once, if you get kicked off or the session crashes, ask your MC but its your fault if it crashes
+
+
+
+TUNNEL SYNTAX
+
+-L 127.0.0.1:2222:192.168.0.2:2202
+-L    L ip  LPORT  R IP      RPORT
+
+the -L starts the connection from your local host, as opposed to -R which starts it on the remote
+the 127.0.0.1 is the local ip, which is the loopback, then the local port which is the 2222
+
+the 192.168.0.2 is the remote ip, followed by remote port 
+
+add "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" to get rid of key host checking errors, use this for your -MS commands
+
+ssh -S /tmp/T1 dummy -O forward -L 127.0.0.1:2222:192.168.0.2:2202
+
+for the -O only worry about forward and cancel
+
+first ssh command
+ssh -MS /tmp/T1 -p <port> <usrname>@<ip of T1> -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+
+then to the same box 
+ssh -S /tmp/T1 -p <same port> <usrname>@<same ip>
+
+then to the next box set up the forward from your box through T1 to T2
+ssh -S /tmp/T1 dummy -O forward -L 127.0.0.1:<local port>:<T2 ip>:<T2 ssh port>
+
+once the port has been forwarded to the second box, use the port on your box to connect to T2 with a master socket
+
+ssh -MS /tmp/T2 silly -p <port you opened> <usrname>@127.0.0.1 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+
+then rinse and repeat for the next boxes
+
+
+
+Examples using above
+
+ssh -MS /tmp/T1 -p 22 student2@10.50.38.229 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+
+ssh -S /tmp/T1 dummy -O forward -L 127.0.0.1:2002:192.168.0.10:22
+
+ssh -MS /tmp/T2 -p 2002 student2@127.0.0.1 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+
+ssh -S /tmp/T2 dummy -O forward -L 127.0.0.1:2003:192.168.0.27:22
+
+ssh -MS /tmp/T3 -p 2003 student2@127.0.0.1 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+
+
+
+REVERSE
+
+the remote ip and port go first, so
+
+ssh -S /tmp/T1 dummy -O forward -R <T2 ip>:<T2 ssh>:127.0.0.1:2002
+
+nc -nvlp 2002
+
+ssh -S /tmp/T2 dummy -O forward -R <Remote Ip>:<Remote port>:127.0.0.1:<local port>
+ssh -S /tmp/T2 dummy -O forward -R 192.168.0.9:12302:127.0.0.1:12302 (nc call back)

@@ -1,0 +1,13 @@
+EVILWINRM
+Windows Remote Manangement/WinRM (Web Services for Management [WS-Man])
+Uses soap for Powershell remoting
+
+
+5985 http
+5986 https
+
+evil-winrm -i <TUNNEL_IP> -u <USERNAME> -P <TUNNEL_PORT>
+
+ssh -S /tmp/T4 dummy -O forward -L 127.0.0.1:3007:192.169.117.203:5985
+evil-winrm -i 127.0.0.1 -u Administrator -P 3007
+password: 

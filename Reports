@@ -1,0 +1,1121 @@
+REPORTS
+*****Security Product Report*****
+
+Target: T1 192.168.0.99
+
+Name - MalDetect
+
+Version - 1.6.5
+
+(NIX) Config file or install directory /usr/local/maldetect
+
+Documentation - https://www.rfxn.com/projects/linux-malware-detect/
+
+Recommendation - Ensure to cross reference the db before any malware uplaod, box is recommended for restricted access
+
+*****End of Report*****
+
+*****Abnormal Logging Report*****
+
+Target: T1 192.168.0.99
+
+Name - rsyslog/iptables
+
+PID - 9230
+
+PPID - 1
+
+User - root
+
+Location of config file - /etc/rsyslog.d/00-my_iptables.conf
+
+Remote IP (hostname if IP cannot be identified) - N/A
+
+Network connections - N/A
+
+Documentation - https://www.rsyslog.com/doc/index.html  https://www.redhat.com/sysadmin/iptables
+
+Description - Rsyslog is a rocket-fast system for log processing. It offers high-performance, great security features and a modular design. While it started as a regular syslogd, rsyslog has evolved into a kind of swiss army knife of logging. The iptables command is a powerful interface for your local Linux firewall. It provides thousands of network traffic management options through a simple syntax.
+
+Recommendation - No risk to mission, just a message that contains "I SEE YOU"
+
+*****End of Report*****
+
+*****Security Product Report*****
+
+Target: T4:192.168.117.100
+
+Name - SELinux
+
+Version - 33
+
+(NIX) Config file or install directory /etc/selinux
+
+Documentation - https://www.redhat.com/en/topics/linux/what-is-selinux
+
+Recommendation - Continue mission, but note since it is in permissive mode, it could log certain actions 
+
+*****End of Report*****
+
+T2: 10.145.117.11
+    Name and version of the product SELinux, 33
+    Installation folder /etc/selinux
+    Directory location of associated logs /var/log/audit/audit.log
+    Timestamp of all associated log files
+    May  3 13:44 /var/log/audit/audit.log
+    
+    Cloud based?; no
+    Can we read the logs?; yes
+
+    If Yes, put the most recent 5 lines of logs in your NSDB File
+type=CRED_DISP msg=audit(1714743859.353:739): pid=42408 uid=1002 auid=1002 ses=5 subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 msg='op=PAM:setcred grantors=pam_env,pam_localuser,pam_unix acct="root" exe="/usr/bin/sudo" hostname=? addr=? terminal=/dev/pts/0 res=success'UID="student2" AUID="student2"
+type=USER_ACCT msg=audit(1714743872.755:740): pid=42411 uid=1002 auid=1002 ses=5 subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 msg='op=PAM:accounting grantors=pam_unix,pam_localuser acct="student2" exe="/usr/bin/sudo" hostname=? addr=? terminal=/dev/pts/0 res=success'UID="student2" AUID="student2"
+type=USER_CMD msg=audit(1714743872.755:741): pid=42411 uid=1002 auid=1002 ses=5 subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 msg='cwd="/home/useraccounts/student2" cmd=7461696C202D6E2035202F7661722F6C6F672F61756469742F61756469742E6C6F67 exe="/usr/bin/sudo" terminal=pts/0 res=success'UID="student2" AUID="student2"
+type=CRED_REFR msg=audit(1714743872.755:742): pid=42411 uid=1002 auid=1002 ses=5 subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 msg='op=PAM:setcred grantors=pam_env,pam_localuser,pam_unix acct="root" exe="/usr/bin/sudo" hostname=? addr=? terminal=/dev/pts/0 res=success'UID="student2" AUID="student2"
+type=USER_START msg=audit(1714743872.757:743): pid=42411 uid=1002 auid=1002 ses=5 subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 msg='op=PAM:session_open grantors=pam_keyinit,pam_limits,pam_systemd,pam_unix acct="root" exe="/usr/bin/sudo" hostname=? addr=? terminal=/dev/pts/0 res=success'UID="student2" AUID="student2"
+
+Recommendation Continue mission, but note since it is in enforcing mode, it could block certain actions and log them
+
+
+
+*****Abnormal Logging Report*****
+
+Target: T2 10.145.117.11
+
+Name - Rsyslog
+
+PID - 40384
+
+PPID - 1
+
+User - root
+
+Location of config file - /etc/rsyslog.conf
+
+Remote IP (hostname if IP cannot be identified) - 10.49.1.4
+
+Network connections - 10.145.117.11:48752                 10.49.1.4:514
+
+Documentation - https://www.rsyslog.com/doc/index.html
+
+Description - Rsyslog is a rocket-fast system for log processing. It offers high-performance, great security features and a modular design. While it started as a regular syslogd, rsyslog has evolved into a kind of swiss army knife of logging
+
+Recommendation - Continue mission, restrict connecting to box unless checking 10.49.1.4 for logs.
+
+*****End of Report*****
+
+T2 10.145.117.11
+    Provide process name/options, PID, Parent ID, user - rsyslog, 40384, 1, root
+    Provide location of configuration file and it's abnormal or irregular contents - /etc/rsyslog.conf
+    *.* @@upsidedown:514
+    
+    Provide hostname or IP of where logs are being sent - 10.49.1.4
+    Provide any network connections opened/established by abnormal logging - 
+tcp         SYN-SENT       0             1                         10.145.117.11:44632                   10.49.1.4:514          users:(("rsyslogd",pid=40384,fd=10))
+    Provide brief description of the abnormal, irregular or remote logging and a link to open source documentation if available. Sending its logs to remote host 10.49.1.4 on port 514, https://www.rsyslog.com/doc/index.html
+
+Recommendation - Continue mission, restrict connecting to box unless checking 10.49.1.4 for logs.
+
+
+
+
+
+*****Malware Report*****
+
+Target: T3: 192.168.0.13
+
+Name - Reptile
+
+Hash - 
+
+8e8d943f55866e10b6a9df04dd94d8a2  /Reptile/Kconfig
+a53d01c61150d47e844b5fbf4b3bd2f9  /Reptile/Makefile
+eb6488b6e7b6daab25cf194428f508cc  /Reptile/README.md
+d4978f9c6e348b2560fb5924c38290b9  /Reptile/configs/defconfig
+c9ce5005c219393522d5f73efc64c02f  /Reptile/kernel/Kbuild
+0df3a862e6f597ec20254b776dcfb910  /Reptile/kernel/backdoor.c
+ad68b4229b9e06a9fa3c81bdeff15d3d  /Reptile/kernel/dir.c
+61bb0276b702ad982a2bcba5612312f3  /Reptile/kernel/file.c
+fd9c811e52fbb16bc26c8dd1bb7887be  /Reptile/kernel/main.c
+58509cd92f9295a745854a30e8b4e9fb  /Reptile/kernel/module.c
+fe42eca830a0ae012128503a6322865e  /Reptile/kernel/network.c
+5611f5492064f23b0840c68daa1e46b9  /Reptile/kernel/proc.c
+969ca831bcbb2cdc5585c286558aaa31  /Reptile/kernel/string_helpers.c
+1216447fe356efbefba677af630cfe39  /Reptile/kernel/util.c
+cc550885777fae29098c60edbcc798e0  /Reptile/kernel/include/backdoor.h
+5f4d4f7007c7f9617b75d9a54d89fb18  /Reptile/kernel/include/config.h
+2b8b7a5f948609bb4f7e6290ae69f865  /Reptile/kernel/include/dir.h
+1c4a99f3ea07136c38f92bc801cf5a4e  /Reptile/kernel/include/encrypt.h
+50ad7fb0e6c7b93b2452586932b06dee  /Reptile/kernel/include/file.h
+1efbd442d3b591abe2d96779efd87858  /Reptile/kernel/include/module.h
+3f9b762686140b5d9c1df56e80b7943c  /Reptile/kernel/include/network.h
+704cfd994e90c549ee4c17875b5bb49e  /Reptile/kernel/include/proc.h
+b9cdb36349db3767dbd285af00c5b67e  /Reptile/kernel/include/string_helpers.h
+f1b4e1fe59b559ca9c50a7d70e73adc2  /Reptile/kernel/include/util.h
+46d394be63868619ea010219c8b75cac  /Reptile/kernel/khook/x86/Makefile
+9bdb0ee21cb6a0895193a5de8b6aebe0  /Reptile/kernel/khook/x86/README.md
+98a902a8544bc8b5b514e2882228243a  /Reptile/kernel/khook/x86/hook.c
+bb01ad6947c63bca9439164e0265e018  /Reptile/kernel/khook/x86/stub.S
+749e248b80516c2f9054f03c0f7620a3  /Reptile/kernel/khook/x86/stub.inc
+a24bfaeba92498565a2895e7e282fb87  /Reptile/kernel/khook/x86/stub32.inc
+ddc4a809abd46cbef8c4acab7ec0ca52  /Reptile/kernel/kmatryoshka/Kbuild
+412d9bab1e62d431a6826143f10dcd3b  /Reptile/kernel/kmatryoshka/kmatryoshka.c
+dd0f42de2840c561899a8358c39c2db1  /Reptile/kernel/loader/loader.c
+6f46e00f032d8ae8d2a2fe4660a24a54  /Reptile/scripts/random.sh
+bf7c7fc055deb21c59a7340e5ce7eb68  /Reptile/scripts/rule
+a32cc57931e0cdfcf72c921078b302c5  /Reptile/scripts/start
+8c2e9a696442432f7ee08356b87f190f  /Reptile/scripts/kconfig/GNUmakefile
+8fef52cd8ccd71120cbf8e013a3254a9  /Reptile/scripts/kconfig/Makefile
+6c568e62d05bf14c87f0cbb0ce131c2b  /Reptile/scripts/kconfig/Makefile.br
+7fe8482e843fa5261d5315e4a88f7924  /Reptile/scripts/kconfig/POTFILES.in
+d2270ae5189b24bde173cfc1d36c06da  /Reptile/scripts/kconfig/README.buildroot
+b7732706b5b6c25606d2cd05ad5260ff  /Reptile/scripts/kconfig/check.sh
+ade065a5016379e6a0df42379ad6c364  /Reptile/scripts/kconfig/conf.c
+306adcbfb997477743c68649b71625bc  /Reptile/scripts/kconfig/confdata.c
+64f9c00ba03d07e7d58086eda832ef1e  /Reptile/scripts/kconfig/config.sh
+2c4a95f57ff1ecc65ceb60601d19c81b  /Reptile/scripts/kconfig/expr.c
+e297baf4fb11305057a1cb2b97912710  /Reptile/scripts/kconfig/expr.h
+9cc73c24b0c296d4d5c253c06fe4678d  /Reptile/scripts/kconfig/foo.h
+86c9e5e91659224ce295ef6a34112a03  /Reptile/scripts/kconfig/gconf.c
+e9b5c5bbcdd098176bbf25a2a6aa9e88  /Reptile/scripts/kconfig/gconf.glade
+41016141bf664d349437c25220c2fc94  /Reptile/scripts/kconfig/images.c
+d6ba6b13a023492b6f5e703bf3ffc80c  /Reptile/scripts/kconfig/kxgettext.c
+0da5d3006732625b491d206aa8b1665b  /Reptile/scripts/kconfig/list.h
+524a1eb0664d440f96d96a1039f1969f  /Reptile/scripts/kconfig/lkc.h
+55114b58f3e5878fd2443ef4fbe817bd  /Reptile/scripts/kconfig/lkc_proto.h
+eabb5e21d32124d502046d8eeb4d2473  /Reptile/scripts/kconfig/mconf.c
+547893d0d9c63a1db853e19f7a18692e  /Reptile/scripts/kconfig/menu.c
+47bc6c18ce695a7a4d1da0773985f440  /Reptile/scripts/kconfig/merge_config.sh
+1d40b0054e41cfc639725afcb6881a06  /Reptile/scripts/kconfig/nconf.c
+0c7d4a2fca7d83ae78d65401856f7455  /Reptile/scripts/kconfig/nconf.gui.c
+329b6e3ed025cbf40f6661a9f22c26df  /Reptile/scripts/kconfig/nconf.h
+b0d21cc8c219f36b6c1ae023ebd3527c  /Reptile/scripts/kconfig/qconf.cc
+3187dfd58c15ce2a190fea2537f70da7  /Reptile/scripts/kconfig/qconf.h
+19a59ea9d24f3f29e710f7d934cee27a  /Reptile/scripts/kconfig/streamline_config.pl
+c9d28bd3e0ac5b51cfa70bd500237fc7  /Reptile/scripts/kconfig/symbol.c
+b4ebeeb1a1e8e684098c89b592957f3f  /Reptile/scripts/kconfig/util.c
+f7288004373d1d1a80135b607c3b7176  /Reptile/scripts/kconfig/zconf.gperf
+c5e1b539150487fc7d42d809c1fe5e5a  /Reptile/scripts/kconfig/zconf.hash.c_shipped
+9f09fbcf84443ba1b5962c10bae62aba  /Reptile/scripts/kconfig/zconf.l
+3df58393dd0391a218b2631c5a0034ba  /Reptile/scripts/kconfig/zconf.lex.c_shipped
+0f633214ae5ea5a29ebdbb2a5c089d13  /Reptile/scripts/kconfig/zconf.tab.c_shipped
+49d045ca530ac4eecab0ddd6092c9271  /Reptile/scripts/kconfig/zconf.y
+2e0bfdc0eb78ca744114b42489f077d3  /Reptile/scripts/kconfig/lxdialog/BIG.FAT.WARNING
+ec55fb03bd40427a5b4f9861aca135a0  /Reptile/scripts/kconfig/lxdialog/check-lxdialog.sh
+b97fd2aa8387f08aee9a2a58835192e6  /Reptile/scripts/kconfig/lxdialog/checklist.c
+de55b67ecf9134eda614a99242e99fa3  /Reptile/scripts/kconfig/lxdialog/dialog.h
+a606e6d2c5a969886ac73d9afc3ce34c  /Reptile/scripts/kconfig/lxdialog/inputbox.c
+c3ad34f8e52f3756146c61ebfc496294  /Reptile/scripts/kconfig/lxdialog/menubox.c
+aa50683c4a4efce78c94e81dafeb441a  /Reptile/scripts/kconfig/lxdialog/textbox.c
+86361c29fcf2c02581fd4dd4427997bf  /Reptile/scripts/kconfig/lxdialog/util.c
+7a945a7498a6fabc1a087113cdeed37f  /Reptile/scripts/kconfig/lxdialog/yesno.c
+9ad77fe3028ab1e00c4e5b07a5193438  /Reptile/scripts/kconfig/patches/01-kconfig-kernel-to-buildroot.patch
+188a80776950ca4f40d58b8b7c42b036  /Reptile/scripts/kconfig/patches/06-br-build-system-integration.patch
+51e70ae6b53ade98732a414531b97562  /Reptile/scripts/kconfig/patches/10-br-build-system.patch
+681b4b091225ff0124b25370dc694056  /Reptile/scripts/kconfig/patches/100-kconfig-generic-env.patch
+d4aadd7b0c2cdca8ec3c97781af3204c  /Reptile/scripts/kconfig/patches/101-kconfig-build.patch
+0c135b67a2908000e6a3990cca208cd0  /Reptile/scripts/kconfig/patches/11-use-mktemp-for-lxdialog.patch
+8b87ba8867dac40dff79d33ffd318dbe  /Reptile/scripts/kconfig/patches/12-fix-glade-file-path.patch
+ef3c08c7dfff622ba8e1ec63befa95e3  /Reptile/scripts/kconfig/patches/14-support-out-of-tree-config.patch
+d624005698981a09b42f2ff0d1319e1b  /Reptile/scripts/kconfig/patches/15-fix-qconf-moc-rule.patch
+e6616b8f326ca360cdd8b157d1f89a96  /Reptile/scripts/kconfig/patches/16-fix-space-to-de-select-options.patch
+06078afd387b185477e99ffee5ca0583  /Reptile/scripts/kconfig/patches/series
+06d57a1a0ebdbded3a4896b2bd3aa249  /Reptile/userland/cmd.c
+1fd5005f107b5e5ef50f8edae3b996db  /Reptile/userland/shell.c
+5cfac66bc2c6aff2badef5982b02ae77  /Reptile/userland/client/client.c
+3ddb5b418950841d317848e64a9dfd6c  /Reptile/userland/client/listener.c
+c1216e31f7deacc39af7dc42cf63fd91  /Reptile/userland/client/packet.c
+097ead350863597974c257e797d3a701  /Reptile/userland/crypto/aes.c
+10c26d7ce614e41f18b4fbc5d026e225  /Reptile/userland/crypto/sha1.c
+84f7b0c7305d2562faec28768b35507e  /Reptile/userland/include/aes.h
+ab1ab5e596605dbe6ff53109c0565407  /Reptile/userland/include/config.h
+7a88dbbc0ba5a5806568245b71c139b4  /Reptile/userland/include/custom_rol32.h
+b0dc305ad9ffc63b81a4ffa0fe1a5179  /Reptile/userland/include/pel.h
+d9814e56e53add4503bec7835f5db8d3  /Reptile/userland/include/sha1.h
+687b6ff688b88cd14c10b5dd7a1e1a52  /Reptile/userland/include/util.h
+b5657a4fa7594f801f65996dc8b031f5  /Reptile/userland/transport/pel.c
+
+
+
+PID - N/A
+
+PPID - N/A
+
+User - root
+
+File type - rootkit
+
+Supporting files - included with hashes
+
+Associated Logs - <>
+
+Persistence - kernel
+
+Documentation - <>
+
+Description - <>
+
+Recommendation - <>
+
+*****End of Report*****
+
+
+
+*****Security Product Report*****
+
+Target: T4: 192.168.117.100
+
+Name - firejail
+
+Version - 0.9.73
+
+(NIX) Config file or install directory /firejail
+
+Documentation - https://github.com/netblue30/firejail
+
+Recommendation - This makes it very difficult to get any info from this machine without privesc. There are work arounds for certain commands, such as using cat to find info in /proc. Continue mission but be prepared for unpriveledged access.
+
+*****End of Report*****
+
+ ***Security Product Report***
+
+Target: T6: 192.168.117.102
+
+Name - SELinux
+
+Version - 33
+
+
+(NIX) Config file or install directory /etc/selinux
+
+Documentation - https://www.redhat.com/en/topics/linux/what-is-selinux
+
+Recommendation - Continue mission, but note since it is in enforcing mode, it could block certain actions and log them
+
+***End of Report***
+
+
+Operator: LCpl Klocko, Tyler
+
+Operation: DryRun1
+
+MC: MC2
+
+Analyst: Analyst2
+
+Description: Goal of operation was to enumerate Krasnovian 1st Artillery BDE network. Mission was succesful. All windows and linux devices were enumerated. Redirected and scanned through T1, finding ip for T3, and found SELinux. T2 had SELinux and Rsyslog, then redirected to T3. T3 had SELinux, and scanned from T3 to find ssh ports for the rest of the boxes. T4 had firejail, which halted progression until a way out was found, when found it was enumerated and moved on to T5. T5 was windows, the terminal died but made another connection and enurmerated. T6 enumerated and moved on to T7. T7 enumerated and from there, exited each connection.
+
+
+*****Abnormal Logging Report*****
+
+Target: T1 10.50.24.145
+
+Name - Rsyslog
+
+PID - 5226
+
+PPID - 1
+
+User - root
+
+Location of config file - /etc/rsyslog.conf
+
+Remote IP (hostname if IP cannot be identified) - 10.49.1.4
+
+Network connections - 10.49.1.4:514, no connection at time of vetting
+                                                                              
+
+
+Documentation - https://www.rsyslog.com/doc/index.html
+
+Description - Rsyslog is a rocket-fast system for log processing. It offers high-performance, great security features and a modular design. While it started as a regular syslogd, rsyslog has evolved into a kind of swiss army knife of logging
+
+Recommendation - Continue mission, restrict connecting to box unless checking 10.49.1.4 for logs.
+
+*****End of Report*****
+
+*****Security Product Report*****
+
+Target: T1 10.50.24.145
+
+Name - SELinux
+
+Version - 33
+
+(NIX) Config file or install directory /etc/selinux
+
+Documentation - https://www.redhat.com/en/topics/linux/what-is-selinux
+
+Recommendation - Continue mission, but note since it is in permissive mode, it could log certain actions.
+
+
+*****End of Report*****
+
+
+***Security Product Report***
+
+Target: T3: 10.145.117.15
+
+Name - SELinux
+
+Version - 33
+
+(NIX) Config file or install directory /etc/selinux
+
+Documentation - https://www.redhat.com/en/topics/linux/what-is-selinux
+
+Recommendation - Continue mission, but note since it is in enforcing mode, it could block certain actions and log them
+
+***End of Report***
+
+
+***Security Product Report***
+
+Target: T3: 10.145.117.15
+
+Name - SELinux
+
+Version - 33
+
+(NIX) Config file or install directory /etc/selinux
+
+Documentation - https://www.redhat.com/en/topics/linux/what-is-selinux
+
+Recommendation - Continue mission, but note since it is in permissive mode, it could log certain actions.
+
+***End of Report***
+
+*****Malware Report*****
+
+Target: T4: 192.168.117.104
+
+Name - Reptile
+
+Hash - 
+
+9cc6f89b8c38d44150ce784e123fd75d  ./.gitignore
+d4978f9c6e348b2560fb5924c38290b9  ./configs/defconfig
+d83cf32ca8336a43bd8302e77d23da2e  ./.git/index
+72766e20c83647f26a276368068fe37f  ./.git/objects/pack/pack-a56cef85965bd2aab66acdba3950c774b734479b.idx
+1066926b16c705e8788bcbe84703c49d  ./.git/objects/pack/pack-a56cef85965bd2aab66acdba3950c774b734479b.pack
+4cf2d64e44205fe628ddd534e1151b58  ./.git/HEAD
+2b7ea5cee3c49ff53d41e00785eb974c  ./.git/hooks/post-update.sample
+56e45f2bcbc8226d2b4200f7c46371bf  ./.git/hooks/pre-rebase.sample
+579a3c1e12a1e74a98169175fb913012  ./.git/hooks/commit-msg.sample
+2b5c047bdb474555e1787db32b2d2fc5  ./.git/hooks/prepare-commit-msg.sample
+ce562e08d8098926a3862fc6e7905199  ./.git/hooks/applypatch-msg.sample
+517f14b9239689dff8bda3022ebd9004  ./.git/hooks/update.sample
+3c5989301dd4b949dfa1f43738a22819  ./.git/hooks/pre-push.sample
+01b1688f97f94776baae85d77b06048b  ./.git/hooks/pre-commit.sample
+ecbb0cb5ffb7d773cd5b2407b210cc3b  ./.git/hooks/fsmonitor-watchman.sample
+2ad18ec82c20af7b5926ed9cea6aeedd  ./.git/hooks/pre-receive.sample
+054f9ffb8bfe04a599751cc757226dda  ./.git/hooks/pre-applypatch.sample
+77241c2ba82dd0975be6c522d6afd9a9  ./.git/logs/HEAD
+77241c2ba82dd0975be6c522d6afd9a9  ./.git/logs/refs/heads/master
+77241c2ba82dd0975be6c522d6afd9a9  ./.git/logs/refs/remotes/origin/HEAD
+a0a7c3fff21f2aea3cfa1d0316dd816c  ./.git/description
+00ca50e084d46e53136909dd8dc6431f  ./.git/packed-refs
+46c9ecb89972e7ffdf27f1c0f375cb18  ./.git/config
+e0894b87639662e6edc5b82b1ddd5b68  ./.git/refs/heads/master
+73a00957034783b7b5c8294c54cd3e12  ./.git/refs/remotes/origin/HEAD
+036208b4a1ab4a235d75c181e685e5a3  ./.git/info/exclude
+8e8d943f55866e10b6a9df04dd94d8a2  ./Kconfig
+bf7c7fc055deb21c59a7340e5ce7eb68  ./scripts/rule
+b41bcf6aeb7efbff64a299fbf8b0e20f  ./scripts/bashrc
+6f46e00f032d8ae8d2a2fe4660a24a54  ./scripts/random.sh
+d41d8cd98f00b204e9800998ecf8427e  ./scripts/kconfig/.pc/16-fix-space-to-de-select-options.patch/.timestamp
+23ee02f0fc0c1a658b70c5d2431b17b6  ./scripts/kconfig/.pc/16-fix-space-to-de-select-options.patch/lxdialog/menubox.c
+d41d8cd98f00b204e9800998ecf8427e  ./scripts/kconfig/.pc/15-fix-qconf-moc-rule.patch/.timestamp
+c16dc50c06a0401142ba27d59c5f4a6e  ./scripts/kconfig/.pc/15-fix-qconf-moc-rule.patch/Makefile
+e8a673d5d4d69a5fd11c880fd4c3c481  ./scripts/kconfig/.pc/.quilt_series
+b405edf4c09a8c0583fb9bd5d26bb185  ./scripts/kconfig/.pc/.quilt_patches
+1fd511b08ebaae95af5983565ec9a8b5  ./scripts/kconfig/.pc/100-kconfig-generic-env.patch/merge_config.sh
+c965707fcb0b614ac29a3a19630fac9e  ./scripts/kconfig/.pc/100-kconfig-generic-env.patch/zconf.tab.c_shipped
+afab80121590c9ca93f2729cef2708c6  ./scripts/kconfig/.pc/100-kconfig-generic-env.patch/mconf.c
+cff686370444491025ac4301b1404b33  ./scripts/kconfig/.pc/100-kconfig-generic-env.patch/expr.h
+6b4386bb74bb45249ddf3d3fde513fcc  ./scripts/kconfig/.pc/100-kconfig-generic-env.patch/conf.c
+8047a6df2b48c95ce3378c04e5459d40  ./scripts/kconfig/.pc/100-kconfig-generic-env.patch/confdata.c
+1b6e06b45a684061ec3834c81fb999dd  ./scripts/kconfig/.pc/100-kconfig-generic-env.patch/qconf.cc
+d41d8cd98f00b204e9800998ecf8427e  ./scripts/kconfig/.pc/100-kconfig-generic-env.patch/.timestamp
+bfff45b21a8b6851cb6cb0dbe210f1df  ./scripts/kconfig/.pc/100-kconfig-generic-env.patch/gconf.glade
+67914f90a7cef496b2de3a0c77ce2895  ./scripts/kconfig/.pc/100-kconfig-generic-env.patch/Makefile
+1d24430bc8a53419e09acfb698e054be  ./scripts/kconfig/.pc/100-kconfig-generic-env.patch/zconf.y
+f8e0e44118b15ac11234103214d7e5bb  ./scripts/kconfig/.pc/100-kconfig-generic-env.patch/lkc.h
+421763ad91cc07144f8f4b3170a31be7  ./scripts/kconfig/.pc/01-kconfig-kernel-to-buildroot.patch/zconf.tab.c_shipped
+3c4cd5aaaa67db94cfac127ac990efb1  ./scripts/kconfig/.pc/01-kconfig-kernel-to-buildroot.patch/mconf.c
+a8ac6af1356e6f5fd6b562089d16c5d0  ./scripts/kconfig/.pc/01-kconfig-kernel-to-buildroot.patch/confdata.c
+580374f4cdeca77486bcb995615abcb6  ./scripts/kconfig/.pc/01-kconfig-kernel-to-buildroot.patch/qconf.cc
+d41d8cd98f00b204e9800998ecf8427e  ./scripts/kconfig/.pc/01-kconfig-kernel-to-buildroot.patch/.timestamp
+0aba4498cae58405f721cf4cb8d172d8  ./scripts/kconfig/.pc/01-kconfig-kernel-to-buildroot.patch/gconf.glade
+6d1a762b3c78a99b63c27d5b1a8554dc  ./scripts/kconfig/.pc/01-kconfig-kernel-to-buildroot.patch/zconf.y
+c8851ce8ca63ec049a8d585879f717eb  ./scripts/kconfig/.pc/12-fix-glade-file-path.patch/gconf.c
+d41d8cd98f00b204e9800998ecf8427e  ./scripts/kconfig/.pc/12-fix-glade-file-path.patch/.timestamp
+d41d8cd98f00b204e9800998ecf8427e  ./scripts/kconfig/.pc/101-kconfig-build.patch/README
+d41d8cd98f00b204e9800998ecf8427e  ./scripts/kconfig/.pc/101-kconfig-build.patch/.timestamp
+d41d8cd98f00b204e9800998ecf8427e  ./scripts/kconfig/.pc/101-kconfig-build.patch/GNUmakefile
+d41d8cd98f00b204e9800998ecf8427e  ./scripts/kconfig/.pc/101-kconfig-build.patch/config.sh
+67c29d7770b8a06133cb0b5a63857b0f  ./scripts/kconfig/.pc/14-support-out-of-tree-config.patch/conf.c
+3a937c3770c03fa58501dc92deb40e46  ./scripts/kconfig/.pc/14-support-out-of-tree-config.patch/confdata.c
+135bc88831876d60ffb4a98dc9bb1e5d  ./scripts/kconfig/.pc/14-support-out-of-tree-config.patch/util.c
+d41d8cd98f00b204e9800998ecf8427e  ./scripts/kconfig/.pc/14-support-out-of-tree-config.patch/.timestamp
+06078afd387b185477e99ffee5ca0583  ./scripts/kconfig/.pc/applied-patches
+d41d8cd98f00b204e9800998ecf8427e  ./scripts/kconfig/.pc/11-use-mktemp-for-lxdialog.patch/.timestamp
+58590dc8a5ae636b96dac8e531f46d60  ./scripts/kconfig/.pc/11-use-mktemp-for-lxdialog.patch/lxdialog/check-lxdialog.sh
+26ab0db90d72e28ad0ba1e22ee510510  ./scripts/kconfig/.pc/.version
+d41d8cd98f00b204e9800998ecf8427e  ./scripts/kconfig/.pc/10-br-build-system.patch/Makefile.br
+d41d8cd98f00b204e9800998ecf8427e  ./scripts/kconfig/.pc/10-br-build-system.patch/.timestamp
+d41d8cd98f00b204e9800998ecf8427e  ./scripts/kconfig/.pc/10-br-build-system.patch/foo.h
+41016141bf664d349437c25220c2fc94  ./scripts/kconfig/images.c
+d6ba6b13a023492b6f5e703bf3ffc80c  ./scripts/kconfig/kxgettext.c
+47bc6c18ce695a7a4d1da0773985f440  ./scripts/kconfig/merge_config.sh
+86c9e5e91659224ce295ef6a34112a03  ./scripts/kconfig/gconf.c
+0f633214ae5ea5a29ebdbb2a5c089d13  ./scripts/kconfig/zconf.tab.c_shipped
+6c568e62d05bf14c87f0cbb0ce131c2b  ./scripts/kconfig/Makefile.br
+eabb5e21d32124d502046d8eeb4d2473  ./scripts/kconfig/mconf.c
+b7732706b5b6c25606d2cd05ad5260ff  ./scripts/kconfig/check.sh
+9f09fbcf84443ba1b5962c10bae62aba  ./scripts/kconfig/zconf.l
+d2270ae5189b24bde173cfc1d36c06da  ./scripts/kconfig/README.buildroot
+e297baf4fb11305057a1cb2b97912710  ./scripts/kconfig/expr.h
+e6616b8f326ca360cdd8b157d1f89a96  ./scripts/kconfig/patches/16-fix-space-to-de-select-options.patch
+06078afd387b185477e99ffee5ca0583  ./scripts/kconfig/patches/series
+d624005698981a09b42f2ff0d1319e1b  ./scripts/kconfig/patches/15-fix-qconf-moc-rule.patch
+681b4b091225ff0124b25370dc694056  ./scripts/kconfig/patches/100-kconfig-generic-env.patch
+9ad77fe3028ab1e00c4e5b07a5193438  ./scripts/kconfig/patches/01-kconfig-kernel-to-buildroot.patch
+8b87ba8867dac40dff79d33ffd318dbe  ./scripts/kconfig/patches/12-fix-glade-file-path.patch
+188a80776950ca4f40d58b8b7c42b036  ./scripts/kconfig/patches/06-br-build-system-integration.patch
+d4aadd7b0c2cdca8ec3c97781af3204c  ./scripts/kconfig/patches/101-kconfig-build.patch
+ef3c08c7dfff622ba8e1ec63befa95e3  ./scripts/kconfig/patches/14-support-out-of-tree-config.patch
+0c135b67a2908000e6a3990cca208cd0  ./scripts/kconfig/patches/11-use-mktemp-for-lxdialog.patch
+51e70ae6b53ade98732a414531b97562  ./scripts/kconfig/patches/10-br-build-system.patch
+c9d28bd3e0ac5b51cfa70bd500237fc7  ./scripts/kconfig/symbol.c
+ade065a5016379e6a0df42379ad6c364  ./scripts/kconfig/conf.c
+0c7d4a2fca7d83ae78d65401856f7455  ./scripts/kconfig/nconf.gui.c
+3df58393dd0391a218b2631c5a0034ba  ./scripts/kconfig/zconf.lex.c_shipped
+306adcbfb997477743c68649b71625bc  ./scripts/kconfig/confdata.c
+19a59ea9d24f3f29e710f7d934cee27a  ./scripts/kconfig/streamline_config.pl
+b0d21cc8c219f36b6c1ae023ebd3527c  ./scripts/kconfig/qconf.cc
+1d40b0054e41cfc639725afcb6881a06  ./scripts/kconfig/nconf.c
+55114b58f3e5878fd2443ef4fbe817bd  ./scripts/kconfig/lkc_proto.h
+7fe8482e843fa5261d5315e4a88f7924  ./scripts/kconfig/POTFILES.in
+547893d0d9c63a1db853e19f7a18692e  ./scripts/kconfig/menu.c
+b4ebeeb1a1e8e684098c89b592957f3f  ./scripts/kconfig/util.c
+8c2e9a696442432f7ee08356b87f190f  ./scripts/kconfig/GNUmakefile
+e9b5c5bbcdd098176bbf25a2a6aa9e88  ./scripts/kconfig/gconf.glade
+8fef52cd8ccd71120cbf8e013a3254a9  ./scripts/kconfig/Makefile
+f7288004373d1d1a80135b607c3b7176  ./scripts/kconfig/zconf.gperf
+2c4a95f57ff1ecc65ceb60601d19c81b  ./scripts/kconfig/expr.c
+3187dfd58c15ce2a190fea2537f70da7  ./scripts/kconfig/qconf.h
+9cc73c24b0c296d4d5c253c06fe4678d  ./scripts/kconfig/foo.h
+64f9c00ba03d07e7d58086eda832ef1e  ./scripts/kconfig/config.sh
+49d045ca530ac4eecab0ddd6092c9271  ./scripts/kconfig/zconf.y
+de55b67ecf9134eda614a99242e99fa3  ./scripts/kconfig/lxdialog/dialog.h
+f1b186abc7a482548c4e0cdd9d362588  ./scripts/kconfig/lxdialog/.gitignore
+7a945a7498a6fabc1a087113cdeed37f  ./scripts/kconfig/lxdialog/yesno.c
+c3ad34f8e52f3756146c61ebfc496294  ./scripts/kconfig/lxdialog/menubox.c
+aa50683c4a4efce78c94e81dafeb441a  ./scripts/kconfig/lxdialog/textbox.c
+2e0bfdc0eb78ca744114b42489f077d3  ./scripts/kconfig/lxdialog/BIG.FAT.WARNING
+a606e6d2c5a969886ac73d9afc3ce34c  ./scripts/kconfig/lxdialog/inputbox.c
+ec55fb03bd40427a5b4f9861aca135a0  ./scripts/kconfig/lxdialog/check-lxdialog.sh
+b97fd2aa8387f08aee9a2a58835192e6  ./scripts/kconfig/lxdialog/checklist.c
+86361c29fcf2c02581fd4dd4427997bf  ./scripts/kconfig/lxdialog/util.c
+0da5d3006732625b491d206aa8b1665b  ./scripts/kconfig/list.h
+524a1eb0664d440f96d96a1039f1969f  ./scripts/kconfig/lkc.h
+329b6e3ed025cbf40f6661a9f22c26df  ./scripts/kconfig/nconf.h
+c5e1b539150487fc7d42d809c1fe5e5a  ./scripts/kconfig/zconf.hash.c_shipped
+8aba1a694a2033b3577abc61b6e2f590  ./scripts/destringify.pl
+4ac55f3e00cdbc2af09550dca9cc8a07  ./scripts/lib/Unescape.pm
+a32cc57931e0cdfcf72c921078b302c5  ./scripts/start
+83a631f611b613ac49574f723a19a621  ./scripts/installer.sh
+17a53f296721bb96d6123565afd470b1  ./kernel/encrypt/encrypt.c
+fd9c811e52fbb16bc26c8dd1bb7887be  ./kernel/main.c
+5f4d4f7007c7f9617b75d9a54d89fb18  ./kernel/include/config.h
+1efbd442d3b591abe2d96779efd87858  ./kernel/include/module.h
+2b8b7a5f948609bb4f7e6290ae69f865  ./kernel/include/dir.h
+b9cdb36349db3767dbd285af00c5b67e  ./kernel/include/string_helpers.h
+50ad7fb0e6c7b93b2452586932b06dee  ./kernel/include/file.h
+704cfd994e90c549ee4c17875b5bb49e  ./kernel/include/proc.h
+f1b4e1fe59b559ca9c50a7d70e73adc2  ./kernel/include/util.h
+3f9b762686140b5d9c1df56e80b7943c  ./kernel/include/network.h
+cc550885777fae29098c60edbcc798e0  ./kernel/include/backdoor.h
+1c4a99f3ea07136c38f92bc801cf5a4e  ./kernel/include/encrypt.h
+5611f5492064f23b0840c68daa1e46b9  ./kernel/proc.c
+c9ce5005c219393522d5f73efc64c02f  ./kernel/Kbuild
+ddc4a809abd46cbef8c4acab7ec0ca52  ./kernel/kmatryoshka/Kbuild
+412d9bab1e62d431a6826143f10dcd3b  ./kernel/kmatryoshka/kmatryoshka.c
+fe42eca830a0ae012128503a6322865e  ./kernel/network.c
+969ca831bcbb2cdc5585c286558aaa31  ./kernel/string_helpers.c
+5c2ff20c5f518803379e5528387045a8  ./kernel/khook/engine.h
+4a14daf686bb46190539852a4062820b  ./kernel/khook/engine.c
+9923c0941efeaf7a122846bdedd855a9  ./kernel/khook/internal.h
+5d1f882f21084ec3e1aa096a3253991b  ./kernel/khook/engine.lds
+e7283e90fe00d0895f38df1829ab07aa  ./kernel/khook/x86/.gitignore
+a24bfaeba92498565a2895e7e282fb87  ./kernel/khook/x86/stub32.inc
+9bdb0ee21cb6a0895193a5de8b6aebe0  ./kernel/khook/x86/README.md
+bb01ad6947c63bca9439164e0265e018  ./kernel/khook/x86/stub.S
+46d394be63868619ea010219c8b75cac  ./kernel/khook/x86/Makefile
+98a902a8544bc8b5b514e2882228243a  ./kernel/khook/x86/hook.c
+749e248b80516c2f9054f03c0f7620a3  ./kernel/khook/x86/stub.inc
+61bb0276b702ad982a2bcba5612312f3  ./kernel/file.c
+1216447fe356efbefba677af630cfe39  ./kernel/util.c
+0df3a862e6f597ec20254b776dcfb910  ./kernel/backdoor.c
+58509cd92f9295a745854a30e8b4e9fb  ./kernel/module.c
+ad68b4229b9e06a9fa3c81bdeff15d3d  ./kernel/dir.c
+dd0f42de2840c561899a8358c39c2db1  ./kernel/loader/loader.c
+eb6488b6e7b6daab25cf194428f508cc  ./README.md
+1fd5005f107b5e5ef50f8edae3b996db  ./userland/shell.c
+06d57a1a0ebdbded3a4896b2bd3aa249  ./userland/cmd.c
+ab1ab5e596605dbe6ff53109c0565407  ./userland/include/config.h
+d9814e56e53add4503bec7835f5db8d3  ./userland/include/sha1.h
+84f7b0c7305d2562faec28768b35507e  ./userland/include/aes.h
+687b6ff688b88cd14c10b5dd7a1e1a52  ./userland/include/util.h
+7a88dbbc0ba5a5806568245b71c139b4  ./userland/include/custom_rol32.h
+b0dc305ad9ffc63b81a4ffa0fe1a5179  ./userland/include/pel.h
+b5657a4fa7594f801f65996dc8b031f5  ./userland/transport/pel.c
+10c26d7ce614e41f18b4fbc5d026e225  ./userland/crypto/sha1.c
+097ead350863597974c257e797d3a701  ./userland/crypto/aes.c
+3ddb5b418950841d317848e64a9dfd6c  ./userland/client/listener.c
+5cfac66bc2c6aff2badef5982b02ae77  ./userland/client/client.c
+c1216e31f7deacc39af7dc42cf63fd91  ./userland/client/packet.c
+3047e6c8b917e3db6f1928215308828f  ./userland/Makefile
+a53d01c61150d47e844b5fbf4b3bd2f9  ./Makefile
+
+PID - none, possibly hidden
+
+PPID - none, possibly hidden
+
+User - root
+
+File type - multiple text files
+
+Supporting files - included with hashes
+
+Associated Logs - N/A
+
+Persistence - none, possibly hidden
+
+Documentation - https://asec.ahnlab.com/en/55785/
+
+Description - Reptile is an open-source kernel module rootkit that targets Linux systems and is publicly available on GitHub. [1] Rootkits are malware that possess the capability to conceal themselves or other malware. 
+
+Recommendation - If it is running, this machine is compromised and must be put on hold. It doesnt appear to have persistence, or even running. The fact the /Reptile directory isnt hidden points to it not have been ran yet, but out of caution its advised not to connect to box further.
+
+*****End of Report*****
+
+*****Privileged User Report*****
+
+Target: T5: 192.168.117.105
+
+User - Administrator
+
+Access Time - 0822 EST, 12:22 their time
+
+Access Method - local
+
+Privileges - complete and unrestricted access to the computer
+
+Activity - <> taskhostw.exe, Wireshark.exe, dumpcap.exe, conhost.exe, SkypeHelper.exe, cmd.exe, MicrosoftEdge.exe, Microsoft.Photos.exe, smartscreen.exe, explorer.exe
+
+
+Description - This user has the tools, and priveleges to detect and interfere with our mission. They are using wireshark to monitor network.
+
+Recommendation - Do not continue on this box, the admin could very well compromise the mission.
+
+*****End of Report*****
+
+*****Abnormal Logging Report*****
+
+Target: T1 10.50.24.145
+
+Name - Rsyslog
+
+PID - 5226
+
+PPID - 1
+
+User - root
+
+Location of config file - /etc/rsyslog.conf
+
+Remote IP (hostname if IP cannot be identified) - 10.49.1.4
+                                                                              tcp      SYN-SENT    0         1                 10.145.117.86:52218             10.49.1.4:514       users:(("rsyslogd",pid=5226,fd=9))                                                                 
+
+
+Documentation - https://www.rsyslog.com/doc/index.html
+
+Description - Rsyslog is a rocket-fast system for log processing. It offers high-performance, great security features and a modular design. While it started as a regular syslogd, rsyslog has evolved into a kind of swiss army knife of logging
+
+Recommendation - Continue mission, restrict connecting to box unless checking 10.49.1.4 for logs.
+
+*****End of Report*****
+
+
+***Security Product Report***
+
+Target: T1: 10.50.24.145
+
+Name - SELinux
+
+Version - 33
+
+(NIX) Config file or install directory /etc/selinux
+
+Documentation - https://www.redhat.com/en/topics/linux/what-is-selinux
+
+Recommendation - Continue mission, but note since it is in enforcing mode, it could block certain actions and log them
+
+***End of Report***
+
+*****Privileged User Report*****
+
+Target: T2: 10.145.117.10
+
+User - Administrator
+
+Access Time - 5/7/2024 12:47 PM
+
+Access Method - local
+
+Privileges - Unlimited power
+
+Activity - Logfusion
+
+Description - Logfusion is a log monitor tool, and remote logging tool. The admin is currently looking at logs, and other normal windows processes.
+
+Recommendation - Do not continue on box until admin logs off.
+
+*****End of Report*****
+
+
+***Security Product Report***
+
+Target: T6: 129.168.117.54
+
+Name - SELinux
+
+Version - 33
+
+(NIX) Config file or install directory /etc/selinux
+
+Documentation - https://www.redhat.com/en/topics/linux/what-is-selinux
+
+Recommendation - Continue mission, but note since it is in permissive mode, it could log certain actions.
+
+***End of Report***
+
+***Security Product Report***
+
+Target: T4: 192.169.117.200
+
+Name - SELinux
+
+Version - 33
+
+(NIX) Config file or install directory /etc/selinux
+
+Documentation - https://www.redhat.com/en/topics/linux/what-is-selinux
+
+Recommendation - Continue mission, but note since it is in enforcing mode, it could block certain actions and log them
+
+***End of Report***
+
+*****Abnormal Logging Report*****
+
+Target:  T5: 192.169.117.201
+
+Name - rsyslog.d
+
+PID - 1221
+
+PPID - 1
+
+User - root
+
+Location of config file - /etc/rsyslog.d/50-default.conf
+
+Remote IP - 10.50.111.4
+
+Network connections - none during vetting
+
+Documentation - https://www.rsyslog.com/doc/index.html
+
+Description - Rsyslog is a rocket-fast system for log processing. It offers high-performance, great security features and a modular design. While it started as a regular syslogd, rsyslog has evolved into a kind of swiss army knife of logging
+
+Recommendation - Continue mission, restrict connecting to box unless checking 10.50.111.4 for logs.
+
+*****End of Report*****
+
+*****Security Product Report*****
+
+Target: T6: 129.168.117.54
+
+Name - MalDetect
+
+Version - 1.6.5
+
+(NIX) Config file or install directory /usr/local/maldetect
+
+Documentation - https://www.rfxn.com/projects/linux-malware-detect/
+
+Recommendation - Ensure to cross reference the db before any malware uplaod, box is recommended for restricted access
+
+*****End of Report*****
+*****Privileged User Report*****
+
+Target: T6: 129.168.117.54
+
+User - root
+
+Access Time - 12:56 - 12:57
+
+Access Method - remote
+
+Privileges - all
+
+Activity - read the maldetect report.txt
+
+Description - root logged for a minute, to read the maldetect report.txt
+
+Recommendation - CM, no implants so no logs on maldetect.
+
+*****End of Report*****
+
+*****Privileged User Report*****
+
+Target: T3: 10.145.117.16
+
+User - root
+
+Access Time - 08:17 utc
+
+Access Method - remote rdp
+
+Privileges - all
+
+Activity - unknown
+
+Description - unknown
+
+Recommendation - Disconnect to avoid detection
+
+*****End of Report*****
+
+*****Abnormal Logging Report*****
+
+Target: T1: 10.50.24.145
+
+Name - rsyslog.d
+
+PID - 5226
+
+PPID - 1
+
+User - root
+
+Location of config file - /etc/rsyslog.conf
+
+Remote IP - 10.49.1.4
+
+Network connections - 10.145.117.86:49310 10.49.1.4:514
+
+Documentation - https://www.rsyslog.com/doc/index.html
+
+Description - Rsyslog is a rocket-fast system for log processing. It offers high-performance, great security features and a modular design. While it started as a regular syslogd, rsyslog has evolved into a kind of swiss army knife of logging
+
+Recommendation - Continue mission, restrict connecting to box unless checking 10.49.1.4 for logs.
+
+*****End of Report*****
+***Security Product Report***
+
+Target: T1: 10.50.24.145
+
+Name - SELinux
+
+Version - 33
+
+(NIX) Config file or install directory /etc/selinux
+
+Documentation - https://www.redhat.com/en/topics/linux/what-is-selinux
+
+Recommendation - Continue mission, but note since it is in permissive mode, it could log certain actions.
+
+***End of Report***
+
+*****Privileged User Report*****
+
+Target: T2: 10.145.117.10
+
+User - administrator
+
+Access Time - 5/8/2024 12:12 PM
+
+Access Method - local
+
+Privileges - All
+
+Activity - OneDrive.exe, LogFusion.exe, RuntimeBroker.exe, ShellExperienceHost.exe, SecurityHealthSystray.exe, SkypeBackgroundHost.exe, SkypeApp.exe, SearchApp.exe, TextInputHost.exe, StartMenuExperienceHost.exe, explorer.exe, ctfmon.exe, taskhostw.exe, sihost.exe
+
+Description - Logfusion is a log monitor tool, and remote logging tool. The admin is currently looking at logs, and other normal windows processes.
+
+Recommendation - Do not continue on box until admin logs off.
+
+*****End of Report*****
+
+*****Abnormal Logging Report*****
+
+Target: T2: 10.145.117.10
+
+Name - Logfusion
+
+PID - 4848
+
+PPID - 1
+
+User - administrator
+
+Location of config file - C:\Program Files\LogFusion\LogFusion.dll.config
+
+Remote IP (hostname if IP cannot be identified) - N/A
+
+Network connections - N/A
+
+Documentation - https://www.logfusion.ca/
+
+Description - Logfusion is a log monitor tool, and remote logging tool. The admin is currently looking at logs easier than standard windows programs.
+
+Recommendation - Do not continue on box until admin logs off.
+
+*****End of Report*****
+
+Target: T3: 10.145.117.16
+
+Name - SELinux
+
+Version - 33
+
+(NIX) Config file or install directory /etc/selinux
+
+Documentation - https://www.redhat.com/en/topics/linux/what-is-selinux
+
+Recommendation - Continue mission, but note since it is in permissive mode, it could log certain actions.
+
+***End of Report***
+
+*****Abnormal Logging Report*****
+
+Target: T4: 192.169.117.200
+
+Name - Process Accounting
+
+PID - N/A
+
+PPID - N/A
+
+User - root
+
+Location of config file - /var/account/pacct
+
+Remote IP (hostname if IP cannot be identified) - N/A
+
+Network connections - N/A
+
+Documentation - https://tldp.org/HOWTO/pdf/Process-Accounting.pdf
+
+Description - Process accounting is the method of recording and summarizing commands executed on Linux. The modern
+Linux kernel is capable of keeping process accounting records for the commands being run, the user who
+executed the command, the CPU time, and much more.
+
+Recommendation - Do not continue, every command ran is logged.
+
+*****End of Report*****
+
+***Security Product Report***
+
+Target: T4: 192.169.117.200
+
+Name - SELinux
+
+Version - 33
+
+(NIX) Config file or install directory /etc/selinux
+
+Documentation - https://www.redhat.com/en/topics/linux/what-is-selinux
+
+Recommendation - Continue mission, but note since it is in enforcing mode, it could block certain actions and log them
+
+***End of Report***
+
+
+
+*****Abnormal Logging Report*****
+
+Target: T5: 192.169.117.201
+
+Name - rsyslog.d
+
+PID - 1221
+
+PPID - 1
+
+User - root
+
+Location of config file - /etc/rsyslog.d/50-default.conf
+
+Remote IP - 10.50.111.4
+
+Network connections - none during vetting
+
+Documentation - https://www.rsyslog.com/doc/index.html
+
+Description - Rsyslog is a rocket-fast system for log processing. It offers high-performance, great security features and a modular design. While it started as a regular syslogd, rsyslog has evolved into a kind of swiss army knife of logging
+
+Recommendation - Continue mission, restrict connecting to box unless checking 10.50.111.4 for logs.
+
+*****End of Report*****
+
+
+*****Abnormal Logging Report*****
+
+Target: T5: 192.169.117.201
+
+Name - tcpdump
+
+PID - 17751
+
+PPID - 1
+
+User - root
+
+Location of config file - /usr/sbin/tcpdump
+
+Remote IP - N/A
+
+Network connections - N/A
+
+Documentation - https://www.tcpdump.org/
+
+Description - A powerful command-line packet analyzer
+
+Recommendation - If our packets have been captured, it can compromise our position in the network. Keep network transfers to a minimum.
+
+*****End of Report*****
+
+*****Privileged User Report*****
+
+Target: T1: 10.50.24.145
+
+User - root
+
+Access Time - Wed14
+
+Access Method - local
+
+Privileges - All
+
+Activity - running bash
+
+Description - root is logged in, running bash. they cleared /var/log/btmp at some point but ive seen them do it a day or two ago, so they may have just cleared it and stayed logged in afk, due to idle time being over 22 hours.
+
+Recommendation - CM, but be weary root could come back any time, and that they could notice an alert or the box reset if they can see the screen
+
+*****End of Report*****
+*****Abnormal Logging Report*****
+
+Target: T1: 10.50.24.145
+
+Name - rsyslog.d
+
+PID - 5226
+
+PPID - 1
+
+User - root
+
+Location of config file - /etc/rsyslog.conf
+
+Remote IP - 10.49.1.4
+
+Network connections - none during vetting
+
+Documentation - https://www.rsyslog.com/doc/index.html
+
+Description - Rsyslog is a rocket-fast system for log processing. It offers high-performance, great security features and a modular design. While it started as a regular syslogd, rsyslog has evolved into a kind of swiss army knife of logging
+
+Recommendation - Continue mission, restrict connecting to box unless checking 10.49.1.4 for logs.
+
+*****End of Report*****
+
+***Security Product Report***
+
+Target: T2: 10.145.117.11
+
+Name - SELinux
+
+Version - 33
+
+(NIX) Config file or install directory /etc/selinux
+
+Documentation - https://www.redhat.com/en/topics/linux/what-is-selinux
+
+Recommendation - Continue mission, but note since it is in enforcing mode, it could block certain actions and log them
+
+***End of Report***
+
+***Security Product Report***
+
+Target: T3: 10.145.117.15
+
+Name - SELinux
+
+Version - 33
+
+(NIX) Config file or install directory /etc/selinux
+
+Documentation - https://www.redhat.com/en/topics/linux/what-is-selinux
+
+Recommendation - Continue mission, but note since it is in enforcing mode, it could block certain actions and log them
+
+***End of Report***
+
+
+*****Privileged User Report*****
+
+Target: T4: 192.169.117.203
+
+User - administrator
+
+Access Time - 5/9/2024 1:29 PM 
+
+Access Method - local
+
+Privileges - all
+
+Activity - sihost.exe, svchost.exe, taskhostw.exe, ctfmon.exe, explorer.exe, avpui.exe (Kapersky),  ShellExperienceHost.exe, SearchUI.exe, ApplicationFrameHost.exe, MSASCuiL.exe, Microsoft.Photos.exe, dllhost.exe, MicrosoftEdge.exe, browser_broker.exe, MicrosoftEdgeCP.exe, cmd.exe, conhost.exe, taskhostw.exe, 
+
+Description - Admin is logged in, running normal processes and a security product. 
+
+Recommendation - Kapersky is running, and the admin could be looking through it. CM but play it safe to avoid detection by Kapersky.
+
+*****End of Report*****
+
+
+*****Security Product Report*****
+
+Target: T4: 192.169.117.203
+
+Name - Kapersky
+
+Version - 21.17
+
+(WIN) Primary registry key - HKEY_LOCAL_MACHINE\software\KasperskyLab
+
+Documentation - https://usa.kaspersky.com/
+
+Recommendation - Kapersky is running, and the admin could be looking through it. CM but play it safe to avoid detection by Kapersky.
+*****End of Report*****
+
+
+
+
+
+
+

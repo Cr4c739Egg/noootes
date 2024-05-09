@@ -1,0 +1,64 @@
+Linux notes
+situational awareness for:
+	priv users
+	Malware
+	Logging
+	Sec products
+
+Date and time are importnant
+	date -u
+
+cpu and memory
+ 	top
+ 	free
+ 	dmidecode
+lscpu
+
+ 	uname -a (MANDO TO RUN)
+ 
+ disk usage
+ 	fdisk -l
+ 	du shows every single files size
+ 	df -h shows free space (useful for vetting)
+ 	
+ Machine Identification - nothing is static
+ 	ifconfig
+ 	ip a
+ 	
+ Processes
+ 	ps -elfH [brackets are good typically]
+ 	service --status-all
+ 	sytemctl status --no-pager
+ 	
+ Ports/connections 
+ 	sudo netstat -tunap
+ 	sudo ss -tunap
+ time wait means we closed connection and waiting for it to close
+ closed wait is other side closing
+ netstat needs to be sudo to see proccess with -p
+ 
+ files
+ 	ls -latr
+ 	dir
+ 	head
+ 	tail
+ 	cat
+ 	strings [readable stings in file]
+ 	grep
+ 	more/less [less, to search put a / and search
+ 	pwd
+ 	
+ Jobs
+ 	crontab -u [user] [-i] 
+ 	
+ Timestamps
+ modified - last time contents of file has changed
+ Accessed time - last time it was accessed at all, so affected by scripts, cmds etc
+ change time - anytime any metadata is change [filename, permissions]
+ 
+ 	touch [-m] [-t] [-a] [-r]
+ 	m/modify
+ 	t/access and modify
+ 	a/access
+ 	r/use another files times
+ 	

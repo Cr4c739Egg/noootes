@@ -1,0 +1,21 @@
+IPTABLES
+
+we gonna use pre and post routing
+
+lsmod shows iotables be on the system
+
+sudo iptables -L will start the process
+
+sudo iptables -t nat -L (shows NAT rules)
+
+to enable forwarding, run sysctl -w net.ipv4.ip_forward=1, to make it persistent put net.ipv4.ip_forward=1 in /etc/sysctl.conf
+when checking iptables, use sudo iptables -L -t nat -n
+
+torubleshoot
+sudo iptables -L -t nat -v -n
+
+sudo iptables -t nat -A PREROUTING -p tcp --dport 12345 -j DNAT --to-destination 192.168.0.23:22
+
+sudo iptables -t nat -A POSTROUTING -p tcp --dport 22 -j SNAT --to-source 192.168.0.99
+
+sudo iptables -t nat -A POSTROUTING -p tcp --dport 22 -j MASQUERADE (SLEDGEHAMMER)
