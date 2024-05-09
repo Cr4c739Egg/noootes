@@ -1,0 +1,389 @@
+Order of Operations
+
+Access Vetting
+
+Vetting complete - all clear
+
+Survey (if required)
+
+Collection (if required)
+
+Scanning (if required)
+
+Redirection (if required)
+
+Do all these steps on next target
+
+Return from redirected target
+
+Effect (if required)
+
+(Other actions if required)
+
+Exit vetting
+
+Exit vetting complete - Exit
+
+make sure to report logs affected by your user to mc when disconnecting
+affected logs are normally 
+for linux:
+
+secure
+messages
+utmp
+wtmp
+lastlog
+audit.log
+^ if selinux
+
+for windows:
+
+security
+application
+
+
+0830 start time, no talking (evals)
+
+dont miss nonstandards (obv) 
+
+
+
+	       what goes in opnotes:
+
+	Mission/access/vetting start and end times
+	hashes
+	any files or executables priv users are running
+	timestamp effects d4m (netsh iptables)
+	what logs you changed
+	NO DIRTY WORDS
+	EVERY CONNECT AND DISCONNECT
+	
+	      For MC dont forget
+	verify ips at start (first thing)
+	connection and disconnect from box
+	any changes to files
+	failed auths
+	new ips 
+	EVERY CONNECT AND DISCONNECT
+
+		hashing
+	powershell -Command "Get-ChildItem -Path 'C:\Windows\Prefetch' -File -Recurse | ForEach-Object { Get-FileHash -Path $_.FullName -Algorithm MD5 }"
+	
+	for %F in (*) do @certutil -hashfile "%F" MD5 | findstr -v "CertUtil: -hashfile command completed successfully.”
+
+
+		   SSH copy paste
+			
+ssh -MS /tmp/T1 -p 22 student2@10.50.38.229 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+
+ssh -S /tmp/T1 dummy -O forward -L 127.0.0.1:3002:192.168.0.10:22
+
+ssh -MS /tmp/T2 -p 3002 student2@127.0.0.1 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+
+
+
+things to work on
+
+wrapping up at the end
+downloading files
+talking to mc
+
+
+
+Upon Connection:
+
+ifconfig -a ; ip addr
+
+ls -latr /
+
+ls -latr /tmp
+
+ls -latr .
+
+ls -latr ..
+
+ls -latr ../..
+
+ls -latr /usr/local
+
+sudo ls -latr /root
+
+ls -latr /etc
+
+w
+
+ps -elf
+
+ls -latr /proc
+
+cat ~/.lesshst
+
+cat ~/.bashrc
+
+
+cat /proc/net/fib_trie
+cat /sys/class/net/eth0/address
+for unpriv
+
+
+sudo netstat -auntp ; sudo ss -auntp
+
+
+
+awk 'function hextodec(str,ret,n,i,k,c){
+    ret = 0
+    n = length(str)
+    for (i = 1; i <= n; i++) {
+        c = tolower(substr(str, i, 1))
+        k = index("123456789abcdef", c)
+        ret = ret * 16 + k
+    }
+    return ret
+}
+function getIP(str,ret){
+    ret=hextodec(substr(str,index(str,":")-2,2)); 
+    for (i=5; i>0; i-=2) {
+        ret = ret"."hextodec(substr(str,i,2))
+    }
+    ret = ret":"hextodec(substr(str,index(str,":")+1,4))
+    return ret
+} 
+NR > 1 {{if(NR==2)print "Local - Remote";local=getIP($2);remote=getIP($3)}{print local" - "remote}}' /proc/net/tcp 
+
+^^^^ netstat wihout netstat
+
+
+
+
+sudo ls -latr /var/spool/cron
+
+tail -n 1000 <files in /var/spool/cron/>
+
+date; date -u
+
+uname -a
+
+df
+
+cat /etc/rsyslog.conf | grep -v "#"
+
+cat /etc/hosts
+
+ls -latr /var/*/*acc*
+
+ls -latr /var/*log*/
+
+sudo ls -latr /var/log/*
+
+
+sudo cat /var/log/messages | grep -i student2
+sudo cat /var/log/secure | grep -i student2
+
+
+cat out relevant files (grep for your logged in user account)
+
+ls -la /etc/*syslog*
+read all the config files
+
+for user in $(cut -f1 -d: /etc/passwd); do echo "###### $user crontab is:"; cat /var/spool/cron/{crontabs/$user,$user} 2>/dev/null; done
+
+
+
+    As needed, examine the files/scripts shown in the directory listing of the cron.* directories
+
+sudo find / \( -path /proc -prune -o -path /sys -prune \) -o -mmin -mins -type f -print0 | sudo xargs -0 ls -latr
+
+sestatus OR getenforce
+
+sudo ls -latr /var/log/audit/audit.log
+sudo tail -n 5 /var/log/audit/audit.log
+
+
+sudo cat /root/.bash_history
+
+cat ~/.bash_history
+
+
+ip n
+
+	Before Disconnect:
+
+w
+
+who -Ha
+
+ls -latr /tmp
+
+ps -elf
+
+netstat -lptn || ss -lptn
+
+ls -latr /var/log
+
+sudo find / \( -path /proc -prune -o -path /sys -prune \) -o -mmin -mins -type f -print0 | sudo xargs -0 ls -latr
+
+  (make sure you tell MC what logs changed)
+
+last
+
+
+
+	SURVEY LINUX
+	
+
+mount
+
+lsmod
+
+uname -a
+
+ls -latr /etc/*release*
+
+cat /etc/*release*
+
+cat /proc/cpuinfo
+
+services --status-all || systemctl status --no-pager
+
+(depending on systemd vs not systemd)
+
+
+cat /proc/meminfo
+
+sudo cat /etc/shadow
+
+cat /etc/passwd
+
+lspci -vv
+
+arp -a
+
+lsusb
+
+lsblk
+
+sudo fdisk -l
+
+free -m
+
+sudo dmidecode -t bios
+
+
+
+
+		WINDOWS
+
+	Upon Connection:
+
+date /t
+
+time /t
+
+query user
+
+tasklist /V
+
+auditpol /get /category:*
+
+ipconfig /all
+
+netstat /anob
+
+netsh advfirewall show allprofiles
+
+net share
+
+reg query hklm\software\microsoft\windows\currentversion\run
+
+reg query hklm\software\microsoft\windows\currentversion\runonce
+
+reg query hklm\software
+
+schtasks /query /v
+
+dir /o:d /t:w c:\
+
+dir /o:d /t:w c:\windows\temp
+
+dir /o:d /t:w c:\windows\
+
+dir /o:d /t:w c:\windows\system32
+
+dir /o:d /t:w c:\windows\system32\winevt\logs
+
+dir /o:d /t:w "%appdata%\microsoft\windows\start menu\programs\startup"
+
+wevtutil qe security /c:25 /rd:true /f:text 
+(whatever has 
+updated from previous dir)
+
+wmic process get processid,parentprocessid,executablepath | findstr <process ID> (malware triage)
+
+
+
+
+	Before Disconnect
+
+
+dir /o:d /t:w c:\windows\temp
+
+dir /o:d /t:w c:\windows\system32\winevt\logs
+
+wevtutil qe security /c:25 /rd:true /f:text (whatever has 
+updated from previous dir)
+
+netstat /anob
+
+query user
+
+tasklist /V
+
+
+
+
+	SURVEY WINDOWS
+	
+
+systeminfo
+
+net user
+
+net localgroup
+
+net session
+
+net start
+
+type %systemroot%\system32\drivers\etc\hosts
+
+arp -a
+
+route print
+
+driverquery /v
+
+wmic baseboard get Manufacturer, Model, PRoduct, SerialNumber, Version
+
+wmic cpu get deviceID, Addresswidth, MaxClockSpeed, Name, Manufacturer
+
+wmic logicaldisk get name, freespace, systemname, filesystem, size, volumeserialnumber
+
+wmic path Win32_VideoController get caption, CurrentHorizontalResolution, CurrentVerticalResolution, Description, DriverVersion, AdapterRAM /format:list
+
+wmic printer list full
+
+wmic path win32_pnpentity where "ConfigManagerErrorCode<>0" get Name, PNPDeviceID
+
+wmic qfe list full
+
+wmic service list full
+
+wmic product get Caption, InstallDate, Vendor
+
+wmic useraccount where "LocalAccount='TRUE'" get Caption, Disabled, Domain, Lockout, PasswordExpires, SID, Status
+
+
+
+
+
+
